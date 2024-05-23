@@ -13,12 +13,13 @@ public class PayChoice extends JPanel {
     private MachineMoney machineMoney;
     private UserInfo userInfo;
     private MachineInfo machineInfo;
-
-    public PayChoice(User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo)
+    private MachineScreen machineScreen;
+    public PayChoice(User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo,MachineScreen machineScreen)
     {
         super();
         this.user = user;
         this.machineMoney = machineMoney;
+        this.machineScreen = machineScreen;
         this.setPreferredSize(new Dimension(350, 300));
         this.userInfo = userInfo;
         this.machineInfo = machineInfo;
@@ -45,26 +46,31 @@ public class PayChoice extends JPanel {
                             user.decreaseOneThousandWon(1);
                             machineMoney.increaseOneThousandWon(1);
                             machineMoney.increaseTempOneThousandWon(1);
+                            machineMoney.increaseTempMoney(1000);
                             break;
                         case 500:
                             user.decreaseFiveHundredWon(1);
                             machineMoney.increaseFiveHundredWon(1);
                             machineMoney.increaseTempFiveHundredWon(1);
+                            machineMoney.increaseTempMoney(500);
                             break;
                         case 100:
                             user.decreaseOneHundredWon(1);
                             machineMoney.increaseOneHundredWon(1);
                             machineMoney.increaseTempOneHundredWon(1);
+                            machineMoney.increaseTempMoney(100);
                             break;
                         case 50:
                             user.decreaseFiftyWon(1);
                             machineMoney.increaseFiftyWon(1);
                             machineMoney.increaseTempFiftyWon(1);
+                            machineMoney.increaseTempMoney(50);
                             break;
                         case 10:
                             user.decreaseTenWon(1);
                             machineMoney.increaseTenWon(1);
                             machineMoney.increaseTempTenWon(1);
+                            machineMoney.increaseTempMoney(10);
                             break;
                     }
                     // Update the user's money display
@@ -79,7 +85,7 @@ public class PayChoice extends JPanel {
                             user.getTenWon() == 0 && moneyValues[finalI] == 10) {
                         PayBtn[finalI].setEnabled(false);
                     }
-
+                    machineScreen.SelectButton();
 
 
                 }

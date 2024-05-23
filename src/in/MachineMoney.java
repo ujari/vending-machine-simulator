@@ -1,24 +1,27 @@
 package in;
 
+import javax.swing.plaf.PanelUI;
+
 public class MachineMoney {
-    private int oneThousandWon;
-    private int fiveHundredWon;
-    private int oneHundredWon;
-    private int fiftyWon;
-    private int tenWon;
+    public int oneThousandWon;
+    public int fiveHundredWon;
+    public int oneHundredWon;
+    public int fiftyWon;
+    public int tenWon;
     public int tempOneThousandWon;
     public int tempFiveHundredWon;
     public int tempOneHundredWon;
     public int tempFiftyWon;
     public int tempTenWon;
-
+    public int TempTotalMoney;
+    public boolean check;
     public MachineMoney() {
         this.oneThousandWon =10;
         this.fiveHundredWon = 10;
         this.oneHundredWon =10;
         this.fiftyWon = 10;
         this.tenWon = 10;
-
+        this.check = false;
     }
 
     public void increaseOneThousandWon(int n)
@@ -125,6 +128,14 @@ public class MachineMoney {
         }
     }
 
+    public void AllIncreaseMoney()
+    {
+        increaseOneThousandWon(tempOneThousandWon);
+        increaseFiveHundredWon(tempFiveHundredWon);
+        increaseOneHundredWon(tempOneHundredWon);
+        increaseFiftyWon(tempFiftyWon);
+        increaseTenWon(tempTenWon);
+    }
 
     public void resetTempMoney() {
         this.tempOneThousandWon = 0;
@@ -136,30 +147,12 @@ public class MachineMoney {
 
 
 
-    public int tempTotalMoney() {
-       int total = (tempOneThousandWon * 1000) + (tempFiveHundredWon * 500) + (tempOneHundredWon * 100) + (tempFiftyWon * 50) + (tempTenWon * 10);
-       return total;
+    public void decreaseTempMoney(int price) {
+
+        TempTotalMoney -=price;
     }
 
-
-    public int getOneThousandWon() {
-        return oneThousandWon;
+    public void increaseTempMoney(int price) {
+        TempTotalMoney += price;
     }
-
-    public int getFiveHundredWon() {
-        return fiveHundredWon;
-    }
-
-    public int getOneHundredWon() {
-        return oneHundredWon;
-    }
-
-    public int getFiftyWon() {
-        return fiftyWon;
-    }
-
-    public int getTenWon() {
-        return tenWon;
-    }
-
 }

@@ -2,6 +2,7 @@ package Screen;
 
 import in.Beverage;
 import in.MachineMoney;
+import in.ReturnChange;
 import in.User;
 
 import javax.swing.*;
@@ -17,47 +18,117 @@ public class MachineScreen extends JPanel {
     UserInfo userInfo;
     MachineInfo machineInfo;
     Information information;
-    public  MachineScreen(User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo, Information information) {
-        super();
-        this.user = user;
-        this.machineMoney = machineMoney;
-        this.userInfo = userInfo;
-        this.machineInfo = machineInfo;
-        this.information = information;
+    JButton btn[]=new JButton[6];
+    ReturnChange returnChange;
 
-        this.setSize(350, 600);
-        JLabel lb1 = new JLabel();
-        lb1.setBounds(0,0,350,600);
+    public MachineScreen (User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo, Information information) {
+    super();
+    this.user = user;
+    this.machineMoney = machineMoney;
+    this.userInfo = userInfo;
+    this.machineInfo = machineInfo;
+    this.information = information;
+    this.returnChange = new ReturnChange(machineMoney,user);
+
+    this.setSize(350, 600);
+    ImageIcon icon = new ImageIcon("imgs/main.jpg");
+    this.setLayout(null);
+    beverages = InitBeverage(); // Initialize beverages before calling SelectButton
+    BeverageName(beverages);
+    JLabel[] beverageLabels = MenuLabel(beverages);
+    for (JLabel label : beverageLabels) {
+        this.add(label);
+    }
+    ReturnButton();
+    SelectButton();
+    // Move this line to the end
+
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         ImageIcon icon = new ImageIcon("imgs/main.jpg");
-        this.setLayout(null);
-        lb1.setIcon(icon);
-        Beverage[] beverages = InitBeverage();
-        BeverageName(beverages);
-        SelectButton();
-        ReturnButton();
-        this.add(lb1);
+        g.drawImage(icon.getImage(), 0, 0, null);
     }
 
   public void SelectButton()
   {
-    JButton btn[]=new JButton[6];
-    int x=33;
-    for (int i = 0; i < 4; i++) {
-        btn[i]=new JButton();
-        btn[i].setBounds(x,132,55,16);
-        x+=72;
-    }
-    btn[4]=new JButton();
-    btn[5]=new JButton();
-    btn[4].setBounds(34, 252, 55, 16);
-    btn[5].setBounds(104, 252, 55, 16);
+      if(btn[0]!=null)
+      {
+          for(int i=0;i<6;i++) {
+              remove(btn[i]);
+          }
+      }
+      this.setLayout(null);
+      int x=33;
+      for (int i = 0; i < 4; i++) {
+            btn[i]=new JButton();
+            btn[i].setBounds(x,132,55,16);
+            x+=72;
+
+        // Check if the tempMachineMoney is greater than or equal to the price of the beverage
+            if (machineMoney.TempTotalMoney >= beverages[i].price) {
+                btn[i].setEnabled(true);
+                btn[i].setBackground(Color.green);
+            } else {
+                btn[i].setEnabled(false);
+                btn[i].setBackground(Color.red);
+            }
+      }
+      btn[4]=new JButton();
+      btn[5]=new JButton();
+      btn[4].setBounds(34, 252, 55, 16);
+      btn[5].setBounds(104, 252, 55, 16);
 
 
+      if (machineMoney.TempTotalMoney >= beverages[4].price) {
+        btn[4].setEnabled(true);
+        btn[4].setBackground(Color.green);
+      } else {
+        btn[4].setEnabled(false);
+        btn[4].setBackground(Color.red);
+      }
 
-    for (int i= 0; i <6 ; i++) {
-     this.add(btn[i]);
-    }
-    }
+      if (machineMoney.TempTotalMoney>= beverages[5].price) {
+        btn[5].setEnabled(true);
+        btn[5].setBackground(Color.green);
+      } else {
+        btn[5].setEnabled(false);
+        btn[5].setBackground(Color.red);
+      }
+      for (int i = 0; i < 6; i++) {
+          this.add(btn[i]);
+      }
+
+      for(int i=0;i<6;i++) {
+          final int finalI = i;
+          btn[i].addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  machineMoney.check = true;
+                  machineMoney.decreaseTempMoney(beverages[finalI].price);
+                  machineInfo.displayMachineMoney();
+                  userInfo.displayUserMoney();
+
+                  // Update the enabled state of the buttons
+                  for (int j = 0; j < 6; j++) {
+                      if (machineMoney.TempTotalMoney >= beverages[j].price) {
+                          btn[j].setEnabled(true);
+                          btn[j].setBackground(Color.red);
+                      } else {
+                          btn[j].setEnabled(false);
+                      }
+                  }
+                  SelectButton();
+
+                  repaint();
+              }
+          });
+      }
+      this.revalidate();
+      this.repaint();
+  }
 
     public void BeverageName(Beverage[] beverage)
     {
@@ -102,33 +173,68 @@ public class MachineScreen extends JPanel {
         return beverages;
     }
 
-public void ReturnButton()
-{
-    JButton btn = new JButton();
-    btn.setBounds(245, 315, 35, 30);
-    btn.addActionListener(new ActionListener() {
+    public void ReturnButton()
+    {
+        JButton btn = new JButton();
+        btn.setBounds(245, 315, 35, 30);
+        btn.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            user.increaseOneThousandWon(machineMoney.tempOneThousandWon);
-            user.increaseFiveHundredWon(machineMoney.tempFiveHundredWon);
-            user.increaseOneHundredWon(machineMoney.tempOneHundredWon);
-            user.increaseFiftyWon(machineMoney.tempFiftyWon);
-            user.increaseTenWon(machineMoney.tempTenWon);
-            machineMoney.decreaseOneThousandWon(machineMoney.tempOneThousandWon);
-            machineMoney.decreaseFiveHundredWon(machineMoney.tempFiveHundredWon);
-            machineMoney.decreaseOneHundredWon(machineMoney.tempOneHundredWon);
-            machineMoney.decreaseFiftyWon(machineMoney.tempFiftyWon);
-            machineMoney.decreaseTenWon(machineMoney.tempTenWon);
-            machineMoney.resetTempMoney();
-            userInfo.displayUserMoney(); // Existing line
-            machineInfo.displayMachineMoney(); // Add this line
+            if (machineMoney.TempTotalMoney == 0) {
+                JOptionPane.showMessageDialog(null, "반환할 금액이 없습니다.");
+                return;
+            }
+
+            if(!machineMoney.check) {
+                user.increaseOneThousandWon(machineMoney.tempOneThousandWon);
+                user.increaseFiveHundredWon(machineMoney.tempFiveHundredWon);
+                user.increaseOneHundredWon(machineMoney.tempOneHundredWon);
+                user.increaseFiftyWon(machineMoney.tempFiftyWon);
+                user.increaseTenWon(machineMoney.tempTenWon);
+                machineMoney.decreaseOneThousandWon(machineMoney.tempOneThousandWon);
+                machineMoney.decreaseFiveHundredWon(machineMoney.tempFiveHundredWon);
+                machineMoney.decreaseOneHundredWon(machineMoney.tempOneHundredWon);
+                machineMoney.decreaseFiftyWon(machineMoney.tempFiftyWon);
+                machineMoney.decreaseTenWon(machineMoney.tempTenWon);
+                machineMoney.decreaseTempMoney(machineMoney.TempTotalMoney);
+                machineMoney.resetTempMoney();
+                userInfo.displayUserMoney(); // Existing line
+                machineInfo.displayMachineMoney(); // Add this line
+                SelectButton();
+            }
+            else {
+                returnChange.change(machineMoney.TempTotalMoney);
+                machineMoney.resetTempMoney();
+                machineMoney.TempTotalMoney=0;
+                userInfo.displayUserMoney();
+                machineInfo.displayMachineMoney();
+                SelectButton();
+
+            }
         }
-    });
-    btn.setOpaque(false);
-    btn.setContentAreaFilled(false);
-    btn.setBorderPainted(false);
-    this.add(btn);
-}
+        });
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        this.add(btn);
+    }
+
+    public JLabel[] MenuLabel(Beverage[] beverages) {
+        JLabel[] labels = new JLabel[beverages.length];
+        int y = 315; // Initial y position
+        int height = 20; // Height of each label
+
+        for (int i = 0; i < beverages.length; i++) {
+            String beverageInfo =  beverages[i].name+"       "  +
+                              "Price: " + beverages[i].price + "원";
+            labels[i] = new JLabel(beverageInfo);
+            labels[i].setFont(new Font("Serif", Font.BOLD, 11));
+            labels[i].setBounds(23, y, 500, height);
+            y += height;
+        }
+            return labels;
+    }
+
     public JPanel getMachineScreen()
     {
         return this;

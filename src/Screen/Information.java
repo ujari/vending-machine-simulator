@@ -13,9 +13,6 @@ public class Information extends JPanel {
         this.setLayout(new GridLayout(0,2));
 
 
-        // Create a PayChoice instance and pass the UserInformationScreen and MachineInformationScreen instances
-        PayChoice payChoice = new PayChoice(user, userInfo, machineMoney, machineInfo);
-
         this.revalidate(); // Re-layout the components
         this.repaint(); // Refresh the display
 

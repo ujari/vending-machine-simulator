@@ -14,8 +14,8 @@ public class RightScreen extends JPanel {
     UserInfo userInfo;
     MachineInfo machineInfo;
     Information information;
-    MachineScreen machineScreen;
-    public RightScreen(User user,UserInfo userInfo,MachineMoney machineMoney, MachineInfo machineInfo, Information information)
+
+    public RightScreen(User user,UserInfo userInfo,MachineMoney machineMoney, MachineInfo machineInfo, Information information, MachineScreen machineScreen)
     {
         super();
         this.user = user;
@@ -25,7 +25,7 @@ public class RightScreen extends JPanel {
         this.information = information;
 
         EnterAdmin enterAdmin = new EnterAdmin();
-        PayChoice payChoice=new PayChoice(user, userInfo,machineMoney, machineInfo);
+        PayChoice payChoice=new PayChoice(user, userInfo,machineMoney, machineInfo,machineScreen);
 
         enterAdmin.setMaximumSize(enterAdmin.getPreferredSize());
 
@@ -43,6 +43,8 @@ public class RightScreen extends JPanel {
         this.add(information.getPanel());
         this.add(payChoice.buttonName());
         this.add(payChoice.getPayChoice());
+        this.revalidate();
+        this.repaint();
     }
 
     public JPanel getPanel()

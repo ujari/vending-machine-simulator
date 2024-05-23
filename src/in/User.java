@@ -8,6 +8,7 @@ public class User {
     private int oneHundredWon;
     private int fiftyWon;
     private int tenWon;
+    public int TotalMoney;
 
     public User(int oneThousandWon, int fiveHundredWon, int oneHundredWon, int fiftyWon, int tenWon) {
         this.oneThousandWon = oneThousandWon;
@@ -15,6 +16,7 @@ public class User {
         this.oneHundredWon = oneHundredWon;
         this.fiftyWon = fiftyWon;
         this.tenWon = tenWon;
+
     }
 
     public void resetMoney() {
@@ -24,6 +26,13 @@ public class User {
         this.fiftyWon = 10;
         this.tenWon = 10;
     }
+
+    public int getTotalMoney() {
+        this.TotalMoney = this.oneThousandWon * 1000 + this.fiveHundredWon * 500 + this.oneHundredWon * 100 + this.fiftyWon * 50 + this.tenWon * 10;
+        return this.TotalMoney;
+    }
+
+
 
     public void decreaseOneThousandWon(int n) {
         for (int i = 0; i < n; i++) {

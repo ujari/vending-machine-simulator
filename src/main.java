@@ -1,7 +1,4 @@
-import Screen.Information;
-import Screen.MachineInfo;
-import Screen.MainFrame;
-import Screen.UserInfo;
+import Screen.*;
 import in.MachineMoney;
 import in.User;
 

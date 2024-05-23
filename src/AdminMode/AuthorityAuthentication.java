@@ -15,7 +15,7 @@ public class AuthorityAuthentication extends JFrame {
         this.add(passwordField);
         JButton button = new JButton("확인");
         button.setPreferredSize(new Dimension(350, 30));
-        //비밀 번호가 맞으면 adminModeScreen을 생성
+        //비밀 번호가 맞으면 adminModeScreen 생성
         button.addActionListener(e -> {
             //엔터키도 입력가능
 

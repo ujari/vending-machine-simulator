@@ -24,7 +24,7 @@ public void displayUserMoney() {
                                "500&nbsp&nbsp&nbsp&nbsp원&nbsp&nbsp: "+ user.getFiveHundredWon() + "<br/>" +
                                "100&nbsp&nbsp&nbsp&nbsp원&nbsp&nbsp: " + user.getOneHundredWon() + "<br/>" +
                                "50&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp원&nbsp&nbsp: " + user.getFiftyWon() + "<br/>" +
-                               "10&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp원&nbsp&nbsp: " + user.getTenWon() + "<br/><br/>"+"총 금액&nbsp&nbsp&nbsp&nbsp: "+totalMoney()+"</html>";
+                               "10&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp원&nbsp&nbsp: " + user.getTenWon() + "<br/><br/>"+"총 금액&nbsp&nbsp&nbsp&nbsp: "+user.getTotalMoney()+"</html>";
             label.setText(moneyInfo);
             label.setFont(new Font("Dialog", Font.PLAIN, 15)); // Set the font size to 20
             add(label);
