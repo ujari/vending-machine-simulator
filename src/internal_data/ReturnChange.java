@@ -1,4 +1,4 @@
-package in;
+package internal_data;
 
 import javax.swing.*;
 

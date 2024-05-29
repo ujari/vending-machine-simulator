@@ -1,5 +1,5 @@
 package Screen;
-import in.User;
+import internal_data.User;
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +9,7 @@ public class UserInfo extends JPanel {
     public UserInfo(User user)
     {
         super();
+        this.setBackground(Color.WHITE);
         this.user = user;
         displayUserMoney();
     }

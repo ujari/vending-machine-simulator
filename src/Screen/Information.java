@@ -1,7 +1,7 @@
 package Screen;
 
-import in.MachineMoney;
-import in.User;
+import internal_data.MachineMoney;
+import internal_data.User;
 
 import javax.swing.*;
 import java.awt.*;

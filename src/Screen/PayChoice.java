@@ -1,7 +1,8 @@
 package Screen;
 
-import in.MachineMoney;
-import in.User;
+
+import internal_data.MachineMoney;
+import internal_data.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ public class PayChoice extends JPanel {
     private UserInfo userInfo;
     private MachineInfo machineInfo;
     private MachineScreen machineScreen;
+    public JButton PayBtn[]=new JButton[5];
     public PayChoice(User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo,MachineScreen machineScreen)
     {
         super();
@@ -24,22 +26,41 @@ public class PayChoice extends JPanel {
         this.userInfo = userInfo;
         this.machineInfo = machineInfo;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        PayButton();
+        PayButton(false);
+        this.setBackground(Color.WHITE);
+
     }
 
-    public void PayButton()
+    public void PayButton(boolean admin)
     {
-        JButton PayBtn[]=new JButton[5];
+        removeAll();
         int[] moneyValues = {1000, 500, 100, 50, 10};
+        for(int i=0;i<5;i++){
+        PayBtn[i]=new JButton(String.valueOf(moneyValues[i]));
+        }
+
+
+
+
+        for (int j = 0; j < 5; j++) {
+            if(machineMoney.TempTotalMoney+moneyValues[j]>7000)
+            {
+                PayBtn[j].setEnabled(false);
+            }
+            else
+            {
+                PayBtn[j].setEnabled(true);
+            }
+        }
 
         for(int i=0 ;i<5;i++) {
-            PayBtn[i]=new JButton(String.valueOf(moneyValues[i]));
             PayBtn[i].setMaximumSize(new Dimension(Integer.MAX_VALUE, PayBtn[i].getPreferredSize().height));
 
             int finalI = i;
             PayBtn[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     // Decrease the user's money according to the button pressed
                     switch (moneyValues[finalI]) {
                         case 1000:
@@ -85,11 +106,38 @@ public class PayChoice extends JPanel {
                             user.getTenWon() == 0 && moneyValues[finalI] == 10) {
                         PayBtn[finalI].setEnabled(false);
                     }
-                    machineScreen.SelectButton();
+
+                    if(machineMoney.tempOneThousandWon>=5)
+                    {
+                        PayBtn[0].setEnabled(false);
+                    }
+                    else
+                    {
+                        PayBtn[0].setEnabled(true);
+                    }
+                    for (int j = 1; j < 5; j++) {
+                        if(machineMoney.TempTotalMoney+moneyValues[j]>7000)
+                        {
+                            PayBtn[j].setEnabled(false);
+                        }
+                        else
+                        {
+                            PayBtn[j].setEnabled(true);
+                        }
+                    }
+                    machineScreen.SelectButton(false);
 
 
                 }
             });
+            if(admin)
+            {
+                for(int j=0;j<5;j++)
+                {
+                    PayBtn[j].setEnabled(false);
+                }
+                return;
+            }
             this.add(PayBtn[i]);
         }
         JButton ResetBtn = new JButton("소지한 금액 초기화");
@@ -98,14 +146,15 @@ public class PayChoice extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 user.resetMoney();
                 userInfo.displayUserMoney();
-                for (int i = 0; i < 5; i++) {
-                    PayBtn[i].setEnabled(true);
-                }
+                PayButton(false);
             }
         });
         ResetBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, ResetBtn.getPreferredSize().height));
         this.add(ResetBtn);
+
     }
+
+
 
     public JLabel buttonName()
     {
@@ -115,6 +164,15 @@ public class PayChoice extends JPanel {
 
         return label;
     }
+
+    public void buttonPause()
+    {
+        for(int i=0;i<5;i++)
+        {
+            PayBtn[i].setEnabled(false);
+        }
+    }
+
 
     JPanel getPayChoice()
     {

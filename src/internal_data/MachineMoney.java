@@ -1,6 +1,4 @@
-package in;
-
-import javax.swing.plaf.PanelUI;
+package internal_data;
 
 public class MachineMoney {
     public int oneThousandWon;
@@ -154,5 +152,18 @@ public class MachineMoney {
 
     public void increaseTempMoney(int price) {
         TempTotalMoney += price;
+    }
+
+    public int CollectMoneyShow() {
+        return (oneThousandWon-10)*1000+ (fiveHundredWon-10)*500 + (oneHundredWon-10)*100 + (fiftyWon-10)*50 + (tenWon-10)*10;
+    }
+
+
+    public void resetMoney() {
+        this.oneThousandWon = 10;
+        this.fiveHundredWon = 10;
+        this.oneHundredWon = 10;
+        this.fiftyWon = 10;
+        this.tenWon = 10;
     }
 }

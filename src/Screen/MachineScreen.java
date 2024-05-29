@@ -1,25 +1,32 @@
 package Screen;
 
-import in.Beverage;
-import in.MachineMoney;
-import in.ReturnChange;
-import in.User;
+import internal_data.Beverage;
+import internal_data.MachineMoney;
+import internal_data.ReturnChange;
+import internal_data.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 
 
 public class MachineScreen extends JPanel {
-    Beverage[] beverages = new Beverage[6];
+
+    public PayChoice payChoice;
+    public Beverage[] beverages = new Beverage[6];
     User user;
     MachineMoney machineMoney;
     UserInfo userInfo;
     MachineInfo machineInfo;
     Information information;
-    JButton btn[]=new JButton[6];
+    public JButton btn[]=new JButton[6];
     ReturnChange returnChange;
+    private int totalSales = 0;
 
     public MachineScreen (User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo, Information information) {
     super();
@@ -35,16 +42,17 @@ public class MachineScreen extends JPanel {
     this.setLayout(null);
     beverages = InitBeverage(); // Initialize beverages before calling SelectButton
     BeverageName(beverages);
-    JLabel[] beverageLabels = MenuLabel(beverages);
-    for (JLabel label : beverageLabels) {
-        this.add(label);
-    }
+    MenuLabel(beverages);
     ReturnButton();
-    SelectButton();
+    SelectButton(false);
     // Move this line to the end
 
     }
 
+    public void setPayChoice(PayChoice payChoice)
+    {
+        this.payChoice = payChoice;
+    }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -52,8 +60,9 @@ public class MachineScreen extends JPanel {
         g.drawImage(icon.getImage(), 0, 0, null);
     }
 
-  public void SelectButton()
+  public void SelectButton(boolean admin)
   {
+
       if(btn[0]!=null)
       {
           for(int i=0;i<6;i++) {
@@ -111,6 +120,36 @@ public class MachineScreen extends JPanel {
                   machineInfo.displayMachineMoney();
                   userInfo.displayUserMoney();
 
+                  // Update salesCount and totalSales
+                  beverages[finalI].salesCount++;
+                  totalSales += beverages[finalI].price;
+                  // Write to file
+                  try {
+                      FileWriter fileWriter = new FileWriter("purchase_history.txt", true);
+                      PrintWriter printWriter = new PrintWriter(fileWriter);
+                      printWriter.println("-----------------------------");
+                      printWriter.println("Purchased item: " + beverages[finalI].name);
+                      printWriter.println("Price: " + beverages[finalI].price);
+                      printWriter.println("Purchase time: " + LocalDateTime.now());
+                      printWriter.println("-----------------------------");
+                      printWriter.close();
+                  } catch (IOException ex) {
+                      ex.printStackTrace();
+                  }
+
+                  //total 파일 만들어 작성
+                    try {
+                        FileWriter fileWriter = new FileWriter("total.txt");
+                        PrintWriter printWriter = new PrintWriter(fileWriter);
+                        printWriter.println("Total sales: " + totalSales);
+                        for (Beverage beverage : beverages) {
+                            printWriter.println("Sales count of " + beverage.name + ": " + beverage.salesCount);
+                        }
+                        printWriter.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
                   // Update the enabled state of the buttons
                   for (int j = 0; j < 6; j++) {
                       if (machineMoney.TempTotalMoney >= beverages[j].price) {
@@ -120,11 +159,18 @@ public class MachineScreen extends JPanel {
                           btn[j].setEnabled(false);
                       }
                   }
-                  SelectButton();
-
+                  SelectButton(false);
+                  payChoice.PayButton(false);
                   repaint();
               }
           });
+          if (admin) {
+              for (int j = 0; j < 6; j++) {
+                  btn[j].setEnabled(false);
+                  btn[j].setBackground(Color.green);
+              }
+              return;
+          }
       }
       this.revalidate();
       this.repaint();
@@ -200,7 +246,7 @@ public class MachineScreen extends JPanel {
                 machineMoney.resetTempMoney();
                 userInfo.displayUserMoney(); // Existing line
                 machineInfo.displayMachineMoney(); // Add this line
-                SelectButton();
+                SelectButton(false);
             }
             else {
                 returnChange.change(machineMoney.TempTotalMoney);
@@ -208,9 +254,10 @@ public class MachineScreen extends JPanel {
                 machineMoney.TempTotalMoney=0;
                 userInfo.displayUserMoney();
                 machineInfo.displayMachineMoney();
-                SelectButton();
+                SelectButton(false);
 
             }
+            payChoice.PayButton(false);
         }
         });
         btn.setOpaque(false);
@@ -219,7 +266,8 @@ public class MachineScreen extends JPanel {
         this.add(btn);
     }
 
-    public JLabel[] MenuLabel(Beverage[] beverages) {
+    public void MenuLabel(Beverage[] beverages) {
+        removeAll();
         JLabel[] labels = new JLabel[beverages.length];
         int y = 315; // Initial y position
         int height = 20; // Height of each label
@@ -231,12 +279,28 @@ public class MachineScreen extends JPanel {
             labels[i].setFont(new Font("Serif", Font.BOLD, 11));
             labels[i].setBounds(23, y, 500, height);
             y += height;
+            this.add(labels[i]);
         }
-            return labels;
+        this.revalidate();
+        this.repaint();
+
     }
 
     public JPanel getMachineScreen()
     {
         return this;
+    }
+
+    public void setBeveragesName(int index, String name) {
+        this.beverages[index].name = name;
+    }
+
+
+    public void setBeveragesPrice(int index, int money) {
+        this.beverages[index].price = money;
+    }
+
+    public void setBeveragesStock(int index, int stock) {
+        this.beverages[index].stock = stock;
     }
 }

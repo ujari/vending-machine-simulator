@@ -1,7 +1,7 @@
 package Screen;
 
-import in.MachineMoney;
-import in.User;
+import internal_data.MachineMoney;
+import internal_data.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,10 @@ public class MainFrame extends JFrame {
         frame.setSize(700,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //관리자 모드가 켜져있지 않은 경우 프레임 보이기
+
         frame.setVisible(true);
     }
+
+
 }
 

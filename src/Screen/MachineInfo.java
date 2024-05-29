@@ -1,6 +1,6 @@
 package Screen;
 
-import in.MachineMoney;
+import internal_data.MachineMoney;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,7 @@ public class MachineInfo extends JPanel {
         super();
         this.machineMoney = machineMoney;
         displayMachineMoney();
+        this.setBackground(Color.WHITE);
     }
 
     public void displayMachineMoney() {

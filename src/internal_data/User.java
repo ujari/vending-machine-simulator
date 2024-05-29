@@ -1,6 +1,4 @@
-package in;
-
-import javax.swing.plaf.PanelUI;
+package internal_data;
 
 public class User {
     private int oneThousandWon;
@@ -20,11 +18,11 @@ public class User {
     }
 
     public void resetMoney() {
-        this.oneThousandWon = 10;
-        this.fiveHundredWon = 10;
-        this.oneHundredWon = 10;
-        this.fiftyWon = 10;
-        this.tenWon = 10;
+        this.oneThousandWon = 100;
+        this.fiveHundredWon = 100;
+        this.oneHundredWon = 100;
+        this.fiftyWon = 100;
+        this.tenWon = 100;
     }
 
     public int getTotalMoney() {

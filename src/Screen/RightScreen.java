@@ -1,7 +1,7 @@
 package Screen;
 
-import in.MachineMoney;
-import in.User;
+import internal_data.MachineMoney;
+import internal_data.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,14 +18,16 @@ public class RightScreen extends JPanel {
     public RightScreen(User user,UserInfo userInfo,MachineMoney machineMoney, MachineInfo machineInfo, Information information, MachineScreen machineScreen)
     {
         super();
+        this.setBackground(Color.WHITE);
         this.user = user;
         this.machineMoney = machineMoney;
         this.userInfo = userInfo;
         this.machineInfo = machineInfo;
         this.information = information;
 
-        EnterAdmin enterAdmin = new EnterAdmin();
         PayChoice payChoice=new PayChoice(user, userInfo,machineMoney, machineInfo,machineScreen);
+        machineScreen.setPayChoice(payChoice);
+        EnterAdmin enterAdmin = new EnterAdmin(machineScreen,payChoice,machineMoney,userInfo,machineInfo);
 
         enterAdmin.setMaximumSize(enterAdmin.getPreferredSize());
 
