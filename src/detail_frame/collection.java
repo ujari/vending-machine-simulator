@@ -24,8 +24,9 @@ public class collection extends JFrame {
         topBar.setPreferredSize(new Dimension(500, 50));
         JLabel label = new JLabel("수금 가능한 돈 : "+ machineMoney.CollectMoneyShow());
         label.setFont(new Font("Serif", Font.BOLD, 25));
+        label.setForeground(Color.white);
         topBar.add(label);
-        topBar.setBackground(Color.green);
+        topBar.setBackground(Color.GRAY);
         this.add(topBar, BorderLayout.NORTH);
     }
 

@@ -81,11 +81,13 @@ public class AdminModeScreen extends JFrame {
         });
         buttons[4].addActionListener(e -> {
              payChoice.PayButton(false);
-             machineScreen.SelectButton(false);
              machineInfo.displayMachineMoney();
              userInfo.displayUserMoney();
-             machineScreen.MenuLabel(machineScreen.beverages);
-
+            machineScreen.MenuLabel(machineScreen.beverages);
+            machineScreen.ReturnButton();
+            machineScreen.SelectButton(false);
+            machineScreen.BeverageName(machineScreen.beverages);
+            machineScreen.PhotoScreen();
 
              this.dispose();
         });

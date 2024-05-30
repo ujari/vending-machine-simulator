@@ -14,7 +14,7 @@ public class ItemManagement extends JFrame {
         this.setTitle("판매 물품 관리");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocation(500, 200);
-        this.setSize(500, 300);
+        this.setSize(500, 500);
         this.setLayout(new BorderLayout());
         topBar();
         changeItem();
@@ -43,7 +43,7 @@ public class ItemManagement extends JFrame {
             label1.setForeground(Color.red);
             changeItem.add(label1);
             //몇번째 물품인지 선택
-            JLabel label2 = new JLabel("물품 선택");
+            JLabel label2 = new JLabel("물품 선택 :");
             label2.setFont(new Font("Serif", Font.BOLD, 20));
             label2.setHorizontalAlignment(SwingConstants.CENTER);
             changeItem.add(label2);
@@ -62,6 +62,7 @@ public class ItemManagement extends JFrame {
             JTextField textField1 = new JTextField(8);
             textField1.setHorizontalAlignment(SwingConstants.CENTER);
             //필드박스에 예시
+             textField1.setToolTipText("물품 이름 입력");
             changeItem.add(textField1);
             JButton button1 = new JButton("변경");
             button1.setPreferredSize(new Dimension(350, 30));
@@ -85,7 +86,7 @@ public class ItemManagement extends JFrame {
             label3.setForeground(Color.red);
             changeItem.add(label3);
             //몇번째 물품인지 선택
-            JLabel label4 = new JLabel("물품 선택");
+            JLabel label4 = new JLabel("물품 선택 :");
             label4.setFont(new Font("Serif", Font.BOLD, 20));
             label4.setHorizontalAlignment(SwingConstants.CENTER);
             changeItem.add(label4);
@@ -101,8 +102,8 @@ public class ItemManagement extends JFrame {
 
             //새로운 가격 입력
             JTextField textField2 = new JTextField(8);
-            //필드박스에 예
             textField2.setHorizontalAlignment(SwingConstants.CENTER);
+            textField2.setToolTipText("물품 가격 입력");
             changeItem.add(textField2);
             JButton button2 = new JButton("변경");
             button2.setPreferredSize(new Dimension(350, 30));
@@ -138,7 +139,7 @@ public class ItemManagement extends JFrame {
             label5.setForeground(Color.red);
             changeItem.add(label5);
             //몇번째 물품인지 선택
-            JLabel label6 = new JLabel("물품 선택");
+            JLabel label6 = new JLabel("물품 선택 :");
             label6.setFont(new Font("Serif", Font.BOLD, 20));
             label6.setHorizontalAlignment(SwingConstants.CENTER);
             changeItem.add(label6);
@@ -155,6 +156,7 @@ public class ItemManagement extends JFrame {
             //새로운 수량 입력
             JTextField textField3 = new JTextField(8);
             textField3.setHorizontalAlignment(SwingConstants.CENTER);
+            textField3.setToolTipText("물품 수량 입력");
             changeItem.add(textField3);
             JButton button3 = new JButton("변경");
             button3.setPreferredSize(new Dimension(350, 30));
@@ -185,8 +187,48 @@ public class ItemManagement extends JFrame {
 
             });
 
-            this.add(changeItem, BorderLayout.CENTER);
+            //물품 사진 변경
+            JLabel label7 = new JLabel("물품 사진 변경");
+            label7.setFont(new Font("Serif", Font.BOLD, 20));
+            label7.setHorizontalAlignment(SwingConstants.CENTER);
+            label7.setForeground(Color.red);
+            changeItem.add(label7);
+        //몇번째 물품인지 선택
+        JLabel label8 = new JLabel("물품 선택 :");
+        label8.setFont(new Font("Serif", Font.BOLD, 20));
+        label8.setHorizontalAlignment(SwingConstants.CENTER);
+        changeItem.add(label8);
+        JComboBox<String> comboBox4 = new JComboBox<>();
+        comboBox4.addItem("1");
+        comboBox4.addItem("2");
+        comboBox4.addItem("3");
+        comboBox4.addItem("4");
+        comboBox4.addItem("5");
+        comboBox4.addItem("6");
+        label8.setLabelFor(comboBox4);
+        changeItem.add(comboBox4);
 
+//새로운 사진 입력
+        JTextField textField4 = new JTextField(30);
+        textField4.setHorizontalAlignment(SwingConstants.CENTER);
+        textField4.setToolTipText("물품 사진 주소 입력");
+        changeItem.add(textField4);
+            JButton button4 = new JButton("변경");
+            button4.setPreferredSize(new Dimension(350, 30));
+            changeItem.add(button4);
+
+            button4.addActionListener(e -> {
+                //아무 입력도 없으면 입력 되지 않았다는 팝업
+                if (textField4.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "입력되지 않았습니다.");
+                    return;
+                }
+                machineScreen.PhotoAd[Integer.parseInt((String) Objects.requireNonNull(comboBox4.getSelectedItem()))-1] = textField4.getText();
+                JOptionPane.showMessageDialog(null, "변경이 완료되었습니다.");
+            });
+
+
+            this.add(changeItem, BorderLayout.CENTER);
 
     }
 

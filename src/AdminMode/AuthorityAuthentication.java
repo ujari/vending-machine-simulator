@@ -30,16 +30,16 @@ public  class  AuthorityAuthentication extends JFrame {
         //엔터키로도 입력하능하게
 
         button.addActionListener(e -> {
-            //엔터키도 입력가능
-
-            if (String.valueOf(passwordField.getPassword()).equals(enterAdmin.getPassword())) {
-                new AdminModeScreen(this, machineScreen,payChoice,enterAdmin,machineMoney,userInfo,machineInfo);
-                payChoice.PayButton(true);
-                machineScreen.SelectButton(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "비밀번호가 틀렸습니다.");
-            }
+        if (String.valueOf(passwordField.getPassword()).equals(enterAdmin.getPassword())) {
+            new AdminModeScreen(this, machineScreen, payChoice, enterAdmin, machineMoney, userInfo, machineInfo);
+            payChoice.PayButton(true);
+            machineScreen.SelectButton(true);
+            this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "비밀번호가 틀렸습니다.");
+        }
         });
         this.add(button);
         this.setSize(400, 200);

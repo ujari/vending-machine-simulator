@@ -27,6 +27,8 @@ public class MachineScreen extends JPanel {
     public JButton btn[]=new JButton[6];
     ReturnChange returnChange;
     private int totalSales = 0;
+    BeveragePhoto beveragePhoto[];
+    public String PhotoAd[]={"imgs/생수.PNG","imgs/커피.PNG","imgs/이온음료.PNG","imgs/고급커피.PNG","imgs/탄산음료.PNG","imgs/특화음료.PNG"};
 
     public MachineScreen (User user, UserInfo userInfo, MachineMoney machineMoney, MachineInfo machineInfo, Information information) {
     super();
@@ -36,16 +38,19 @@ public class MachineScreen extends JPanel {
     this.machineInfo = machineInfo;
     this.information = information;
     this.returnChange = new ReturnChange(machineMoney,user);
+    this.beveragePhoto=new BeveragePhoto[6];
 
     this.setSize(350, 600);
     ImageIcon icon = new ImageIcon("imgs/main.jpg");
     this.setLayout(null);
     beverages = InitBeverage(); // Initialize beverages before calling SelectButton
-    BeverageName(beverages);
+
     MenuLabel(beverages);
     ReturnButton();
     SelectButton(false);
-    // Move this line to the end
+    BeverageName(beverages);
+    PhotoScreen();
+
 
     }
 
@@ -69,6 +74,7 @@ public class MachineScreen extends JPanel {
               remove(btn[i]);
           }
       }
+
       this.setLayout(null);
       int x=33;
       for (int i = 0; i < 4; i++) {
@@ -77,13 +83,14 @@ public class MachineScreen extends JPanel {
             x+=72;
 
         // Check if the tempMachineMoney is greater than or equal to the price of the beverage
-            if (machineMoney.TempTotalMoney >= beverages[i].price) {
+            if (machineMoney.TempTotalMoney >= beverages[i].price&&beverages[i].stock>0) {
                 btn[i].setEnabled(true);
                 btn[i].setBackground(Color.green);
             } else {
                 btn[i].setEnabled(false);
                 btn[i].setBackground(Color.red);
             }
+
       }
       btn[4]=new JButton();
       btn[5]=new JButton();
@@ -91,7 +98,7 @@ public class MachineScreen extends JPanel {
       btn[5].setBounds(104, 252, 55, 16);
 
 
-      if (machineMoney.TempTotalMoney >= beverages[4].price) {
+      if (machineMoney.TempTotalMoney >= beverages[4].price&&beverages[4].stock>0) {
         btn[4].setEnabled(true);
         btn[4].setBackground(Color.green);
       } else {
@@ -99,7 +106,7 @@ public class MachineScreen extends JPanel {
         btn[4].setBackground(Color.red);
       }
 
-      if (machineMoney.TempTotalMoney>= beverages[5].price) {
+      if (machineMoney.TempTotalMoney>= beverages[5].price&&beverages[5].stock>0) {
         btn[5].setEnabled(true);
         btn[5].setBackground(Color.green);
       } else {
@@ -117,6 +124,7 @@ public class MachineScreen extends JPanel {
               public void actionPerformed(ActionEvent e) {
                   machineMoney.check = true;
                   machineMoney.decreaseTempMoney(beverages[finalI].price);
+                  beverages[finalI].stock--;
                   machineInfo.displayMachineMoney();
                   userInfo.displayUserMoney();
 
@@ -151,24 +159,20 @@ public class MachineScreen extends JPanel {
                     }
 
                   // Update the enabled state of the buttons
-                  for (int j = 0; j < 6; j++) {
-                      if (machineMoney.TempTotalMoney >= beverages[j].price) {
-                          btn[j].setEnabled(true);
-                          btn[j].setBackground(Color.red);
-                      } else {
-                          btn[j].setEnabled(false);
-                      }
-                  }
+                  //해당 물품을 구매하였다는 팝업창
+                    JOptionPane.showMessageDialog(null, beverages[finalI].name + "을 구매하였습니다.");
                   SelectButton(false);
                   payChoice.PayButton(false);
                   repaint();
               }
+
           });
           if (admin) {
               for (int j = 0; j < 6; j++) {
                   btn[j].setEnabled(false);
                   btn[j].setBackground(Color.green);
               }
+
               return;
           }
       }
@@ -286,6 +290,29 @@ public class MachineScreen extends JPanel {
 
     }
 
+    public void PhotoScreen()
+    {
+        if(beveragePhoto[0]!=null)
+        {
+            for(int i=0;i<6;i++) {
+                remove(beveragePhoto[i]);
+            }
+        }
+        for (int i=0;i<4;i++)
+        {
+            beveragePhoto[i]=new BeveragePhoto(PhotoAd[i]);
+            beveragePhoto[i].setBounds(28+i*76, 40, 60, 60);
+            this.add(beveragePhoto[i]);
+        }
+        for (int i=4;i<6;i++)
+        {
+            beveragePhoto[i]=new BeveragePhoto(PhotoAd[i]);
+            beveragePhoto[i].setBounds(34+(i-4)*70, 160, 60, 60);
+            this.add(beveragePhoto[i]);
+        }
+    }
+
+
     public JPanel getMachineScreen()
     {
         return this;
@@ -302,5 +329,11 @@ public class MachineScreen extends JPanel {
 
     public void setBeveragesStock(int index, int stock) {
         this.beverages[index].stock = stock;
+    }
+
+    public void setBeveragesPhoto(int i, String add) {
+        beveragePhoto[i].setAd(add);
+        beveragePhoto[i].revalidate();
+        beveragePhoto[i].repaint();
     }
 }
