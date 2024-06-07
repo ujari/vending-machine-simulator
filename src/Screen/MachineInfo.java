@@ -8,6 +8,7 @@ import java.awt.*;
 public class MachineInfo extends JPanel {
     private MachineMoney machineMoney;
 
+    //자판기 정보 생성
     public MachineInfo(MachineMoney machineMoney)
     {
         super();
@@ -16,6 +17,7 @@ public class MachineInfo extends JPanel {
         this.setBackground(Color.WHITE);
     }
 
+    //자판기 의 금액 정보를 화면에 출력
     public void displayMachineMoney() {
         this.removeAll(); // Remove the old label
         JLabel label = new JLabel();
@@ -27,10 +29,11 @@ public class MachineInfo extends JPanel {
         label.setText(moneyInfo);
         label.setFont(new Font("Dialog", Font.PLAIN, 15)); // Set the font size to 20
         this.add(label);
-        this.revalidate(); // Re-layout the components
-        this.repaint(); // Refresh the display
+        this.revalidate();
+        this.repaint();
     }
 
+    //자판기의 총 금액을 반환
     public int totalMoney()
     {
         int totalMoney = machineMoney.oneThousandWon * 1000 + machineMoney.fiveHundredWon * 500 + machineMoney.oneHundredWon * 100 + machineMoney.fiftyWon * 50 + machineMoney.tenWon * 10;

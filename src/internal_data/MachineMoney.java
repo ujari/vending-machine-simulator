@@ -12,7 +12,9 @@ public class MachineMoney {
     public int tempFiftyWon;
     public int tempTenWon;
     public int TempTotalMoney;
-    public boolean check;
+    public boolean check;//음료를 구매한 상태인지 확인
+
+
     public MachineMoney() {
         this.oneThousandWon =10;
         this.fiveHundredWon = 10;
@@ -126,14 +128,6 @@ public class MachineMoney {
         }
     }
 
-    public void AllIncreaseMoney()
-    {
-        increaseOneThousandWon(tempOneThousandWon);
-        increaseFiveHundredWon(tempFiveHundredWon);
-        increaseOneHundredWon(tempOneHundredWon);
-        increaseFiftyWon(tempFiftyWon);
-        increaseTenWon(tempTenWon);
-    }
 
     public void resetTempMoney() {
         this.tempOneThousandWon = 0;
@@ -145,12 +139,12 @@ public class MachineMoney {
 
 
 
-    public void decreaseTempMoney(int price) {
+    public void decreaseTotalTempMoney(int price) {
 
         TempTotalMoney -=price;
     }
 
-    public void increaseTempMoney(int price) {
+    public void increaseTotalTempMoney(int price) {
         TempTotalMoney += price;
     }
 

@@ -7,8 +7,7 @@ public class Beverage{
     public int SlotId;
     public int salesCount;
 
-
-
+    //음료 객체 생성
     public Beverage(String name, int price, int stock, int SlotId)
     {
         super();
@@ -19,19 +18,5 @@ public class Beverage{
         this.salesCount=0;
     }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public void setPrice(int price)
-    {
-        this.price = price;
-    }
-
-    public void setStock(int stock)
-    {
-        this.stock = stock;
-    }
 
 }

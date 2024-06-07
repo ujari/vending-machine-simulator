@@ -15,6 +15,7 @@ public class RightScreen extends JPanel {
     MachineInfo machineInfo;
     Information information;
 
+    // 오른쪽 화면을 구성하는 클래스
     public RightScreen(User user,UserInfo userInfo,MachineMoney machineMoney, MachineInfo machineInfo, Information information, MachineScreen machineScreen)
     {
         super();
@@ -25,12 +26,15 @@ public class RightScreen extends JPanel {
         this.machineInfo = machineInfo;
         this.information = information;
 
+        // 사용자 정보를 표시하는 화면을 생성
         PayChoice payChoice=new PayChoice(user, userInfo,machineMoney, machineInfo,machineScreen);
         machineScreen.setPayChoice(payChoice);
+        // 사용자 정보를 표시하는 화면을 생성
         EnterAdmin enterAdmin = new EnterAdmin(machineScreen,payChoice,machineMoney,userInfo,machineInfo);
-
+        // 사용자 정보를 표시하는 화면을 생성
         enterAdmin.setMaximumSize(enterAdmin.getPreferredSize());
 
+        // 사용자 정보를 표시하는 화면을 생성
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -41,6 +45,7 @@ public class RightScreen extends JPanel {
             }
         });
 
+        ////////////패널 ADD//////////////-
         this.add(enterAdmin.getEnterAdmin());
         this.add(information.getPanel());
         this.add(payChoice.buttonName());

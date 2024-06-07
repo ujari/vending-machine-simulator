@@ -8,30 +8,25 @@ public class User {
     private int tenWon;
     public int TotalMoney;
 
-    public User(int oneThousandWon, int fiveHundredWon, int oneHundredWon, int fiftyWon, int tenWon) {
-        this.oneThousandWon = oneThousandWon;
-        this.fiveHundredWon = fiveHundredWon;
-        this.oneHundredWon = oneHundredWon;
-        this.fiftyWon = fiftyWon;
-        this.tenWon = tenWon;
+    public User() {
+        this.oneThousandWon =100;
+        this.fiveHundredWon = 100;
+        this.oneHundredWon = 100;
+        this.fiftyWon = 100;
+        this.tenWon = 100;
 
     }
 
     public void resetMoney() {
-        this.oneThousandWon = 100;
+        this.oneThousandWon = oneThousandWon;
         this.fiveHundredWon = 100;
         this.oneHundredWon = 100;
         this.fiftyWon = 100;
         this.tenWon = 100;
     }
 
-    public int getTotalMoney() {
-        this.TotalMoney = this.oneThousandWon * 1000 + this.fiveHundredWon * 500 + this.oneHundredWon * 100 + this.fiftyWon * 50 + this.tenWon * 10;
-        return this.TotalMoney;
-    }
 
-
-
+    ///////////////////////////돈 감소 함수///////////////////////////
     public void decreaseOneThousandWon(int n) {
         for (int i = 0; i < n; i++) {
             if (this.oneThousandWon > 0) {
@@ -71,7 +66,8 @@ public class User {
             }
         }
     }
-    //증가 함수 제작예정
+
+    ///////////////////////////돈 증가 함수///////////////////////////
     public void increaseOneThousandWon(int n) {
         for (int i = 0; i < n; i++) {
             this.oneThousandWon++;
@@ -103,7 +99,7 @@ public class User {
     }
 
 
-
+    ////////////////돈 반환 함수/////////////////////
     public int getOneThousandWon() {
         return oneThousandWon;
     }
@@ -123,4 +119,10 @@ public class User {
     public int getTenWon() {
         return tenWon;
     }
+
+    public int getTotalMoney() {
+        this.TotalMoney = this.oneThousandWon * 1000 + this.fiveHundredWon * 500 + this.oneHundredWon * 100 + this.fiftyWon * 50 + this.tenWon * 10;
+        return this.TotalMoney;
+    }
+
 }

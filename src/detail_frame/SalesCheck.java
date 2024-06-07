@@ -18,11 +18,14 @@ public class SalesCheck extends JFrame{
         this.setLayout(new BorderLayout(20,20));
         //크기 변경 불가
         this.setResizable(false);
+        //상단바
         topBar();
+        //판매 내역
         Show();
         this.setVisible(true);
     }
 
+    //상단바
     void topBar() {
         JPanel topBar = new JPanel();
         topBar.setPreferredSize(new Dimension(800, 50));
@@ -33,6 +36,7 @@ public class SalesCheck extends JFrame{
         this.add(topBar, BorderLayout.NORTH);
     }
 
+    //판매 내역
     void Show(){
         JPanel showSales = new JPanel();
         showSales.setLayout(new GridLayout(0,1,10,10));
@@ -41,8 +45,8 @@ public class SalesCheck extends JFrame{
 
         this.add(showSales, BorderLayout.CENTER);
     }
+    
     //purchase history파일을 읽어 보여주는 메소드
-
     public JPanel showSales()
     {
         JPanel showSales = new JPanel();
@@ -51,6 +55,7 @@ public class SalesCheck extends JFrame{
         label.setFont(new Font("Serif", Font.BOLD, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         showSales.add(label);
+        
         JTextArea textArea = new JTextArea(10, 30);
         textArea.setFont(new Font("Serif", Font.BOLD, 15));
         textArea.setEditable(false);
@@ -60,7 +65,7 @@ public class SalesCheck extends JFrame{
         showSales.add(scrollPane);
 
 
-        // Read from file
+        //파일 읽기
         try {
             BufferedReader reader = new BufferedReader(new FileReader("purchase_history.txt"));
             String line;
@@ -75,6 +80,7 @@ public class SalesCheck extends JFrame{
         return showSales;
     }
 
+    //total파일을 읽어 보여주는 메소드
     public JPanel totalSales()
     {
         JPanel showSales = new JPanel();
@@ -83,16 +89,17 @@ public class SalesCheck extends JFrame{
         label.setFont(new Font("Serif", Font.BOLD, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         showSales.add(label);
+        
         JTextArea textArea = new JTextArea(10, 30);
         textArea.setFont(new Font("Serif", Font.BOLD, 15));
         textArea.setEditable(false);
 
 
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); // Disable horizontal scrollbar
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); 
         showSales.add(scrollPane);
 
-        // Read from file
+        //파일 읽기
         try {
             BufferedReader reader = new BufferedReader(new FileReader("total.txt"));
             String line;
@@ -105,10 +112,6 @@ public class SalesCheck extends JFrame{
         }
 
         return showSales;
-    }
-
-    public static void main(String[] args) {
-        new SalesCheck();
     }
 
 }
